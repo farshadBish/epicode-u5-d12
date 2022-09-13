@@ -21,10 +21,12 @@ const notValidProduct = {
   description: "bla bla bla",
 }
 
+let newProduct
+
 beforeAll(async () => {
   // beforeAll hook could be used to connect to Mongo and also to do some initial setup (like inserting mock data into the db)
   await mongoose.connect(process.env.MONGO_CONNECTION_STRING)
-  const newProduct = new ProductsModel(validProduct)
+  newProduct = new ProductsModel(validProduct)
   await newProduct.save()
 })
 
@@ -61,4 +63,23 @@ describe("test api", () => {
     const response = await client.get("/products/test").expect(200)
     expect(response.body.message).toEqual("test")
   })
+
+  test("Should test that GET /products/:id endpoint returns the correct product with a valid id", async() => {
+    const response = await client.get(`/products/${newProduct._id}`).expect(200)
+    console.log(newProduct);
+    expect(response.body.product._id).toEqual(newProduct._id.toString())
+  })
+
+  test("Should test that GET /products/:id endpoint returns 404 product with a unvalid id", async() => {
+    const response = await client.get(`/products/123456789101112131415161`).expect(404)
+  })
+
+  test("Should test that DELETE /products/:id endpoint returns 204 response code", async() => {
+    const response = await client.delete(`/products/${newProduct._id}`).expect(204)
+  })
+
+  test("Should test that DELETE /products/:id endpoint returns 404 with a unvalid id", async() => {
+    const response = await client.delete(`/products/123456789101112131415161`).expect(404)
+  })
 })
+

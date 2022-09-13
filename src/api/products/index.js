@@ -27,43 +27,43 @@ productsRouter.get("/", async (req, res, next) => {
   }
 })
 
-productsRouter.get("/:userId", async (req, res, next) => {
+productsRouter.get("/:productId", async (req, res, next) => {
   try {
-    const user = await ProductsModel.findById(req.params.userId)
-    if (user) {
-      res.send({ currentRequestingUser: req.user, user })
+    const product = await ProductsModel.findById(req.params.productId)
+    if (product) {
+      res.send({ currentRequestingUser: req.product, product })
     } else {
-      next(createError(404, `User with id ${req.params.userId} not found!`))
+      next(createError(404, `User with id ${req.params.productId} not found!`))
     }
   } catch (error) {
     next(error)
   }
 })
 
-productsRouter.put("/:userId", async (req, res, next) => {
+productsRouter.put("/:productId", async (req, res, next) => {
   try {
     const updatedUser = await ProductsModel.findByIdAndUpdate(
-      req.params.userId,
+      req.params.productId,
       req.body,
       { new: true, runValidators: true }
     )
     if (updatedUser) {
       res.send(updatedUser)
     } else {
-      next(createError(404, `User with id ${req.params.userId} not found!`))
+      next(createError(404, `User with id ${req.params.productId} not found!`))
     }
   } catch (error) {
     next(error)
   }
 })
 
-productsRouter.delete("/:userId", async (req, res, next) => {
+productsRouter.delete("/:productId", async (req, res, next) => {
   try {
-    const deletedUser = await ProductsModel.findByIdAndDelete(req.params.userId)
+    const deletedUser = await ProductsModel.findByIdAndDelete(req.params.productId)
     if (deletedUser) {
       res.status(204).send()
     } else {
-      next(createError(404, `User with id ${req.params.userId} not found!`))
+      next(createError(404, `User with id ${req.params.productId} not found!`))
     }
   } catch (error) {
     next(error)
