@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
-    "dev": "nodemon -r dotenv/config ./src/server.js"
+    "watch": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --watchAll",
+    "dev": "nodemon -r dotenv/config ./src/index.js"
   },
   "repository": {
     "type": "git",
