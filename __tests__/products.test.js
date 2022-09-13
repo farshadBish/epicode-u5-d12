@@ -35,10 +35,6 @@ afterAll(async () => {
 })
 
 describe("test api", () => {
-  /*test("should test that GET /test endpoint returns a success status code", async () => {
-    const response = await client.get("/test").expect(200)
-    console.log(response.body)
-  })*/
   test("should check that mongo env var is set correctly", () => {
     expect(process.env.MONGO_CONNECTION_STRING).toBeDefined()
   })
@@ -59,5 +55,10 @@ describe("test api", () => {
 
   test("Should test that POST /products returns 400 in case of not valid product", async () => {
     await client.post("/products").send(notValidProduct).expect(400)
+  })
+
+  test("should test that GET /products/test endpoint returns a success status code", async () => {
+    const response = await client.get("/products/test").expect(200)
+    expect(response.body.message).toEqual("test")
   })
 })
