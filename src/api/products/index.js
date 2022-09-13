@@ -14,6 +14,10 @@ productsRouter.post("/", async (req, res, next) => {
   }
 })
 
+productsRouter.get("/test", async (req, res, next) => {
+  res.send({ message: "test" })
+})
+
 productsRouter.get("/", async (req, res, next) => {
   try {
     const users = await ProductsModel.find()
